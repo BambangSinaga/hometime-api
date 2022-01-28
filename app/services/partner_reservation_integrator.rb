@@ -1,16 +1,18 @@
+# frozen_string_literal: true
+
 class PartnerReservationIntegrator
   attr_accessor :errors
 
   def initialize(params)
     @params = params
-    @errors = nil
+    @errors = []
   end
 
   def perform
-    result = Airbnb.new.call(@params)
-    return false if invalid?(result)
+    result, schema = transform_to_hometime_schema
+    return false if @errors.present?
 
-    record = AirbnbMapper.transform(result.values)
+    record = "#{schema}Mapper".constantize.transform(result.values)
 
     ActiveRecord::Base.transaction do
       guest = Guest.find_or_initialize_by(email: record.guest.email)
@@ -25,9 +27,37 @@ class PartnerReservationIntegrator
 
   private
 
-  def invalid?(result)
-    @errors = result.errors.to_h
+  # get list of available contract class automatically
+  # loop through each contract to get first valid contract
+  # return Dry::Validation::Result with data type as defined on contract class
+  def transform_to_hometime_schema
+    result = nil
+    used_schema = nil
+    schemas = partner_schemas
 
-    @errors.present?
+    schemas.each do |schema|
+      result = schema.constantize.new.call(@params)
+      used_schema = schema
+
+      if result.success?
+        @errors = []
+        break
+      end
+
+      @errors << { "#{schema}": result.errors.to_h }
+    end
+
+    [result, used_schema]
+  end
+
+  def partner_schemas
+    schemas = []
+    Dir.glob('app/contracts/**/*.rb').each do |f|
+      next if f.eql?('app/contracts/application_contract.rb')
+
+      schemas << f.split('/')[-1].camelize.split('.').first
+    end
+
+    schemas
   end
 end
