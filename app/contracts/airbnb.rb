@@ -6,7 +6,7 @@ class Airbnb < ApplicationContract
     required(:start_date).filled(:date)
     required(:end_date).filled(:date)
     required(:nights).filled(:integer)
-    required(:guests).filled(:integer)
+    required(:guests).filled(:integer, gt?: 0)
     required(:adults).filled(:integer)
     required(:children).filled(:integer)
     required(:infants).filled(:integer)
