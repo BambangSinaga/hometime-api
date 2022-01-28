@@ -37,7 +37,6 @@ end
 
 group :test do
   gem 'database_cleaner'
-  gem 'faker'
   gem 'rspec-rails'
   gem 'rswag-specs'
   gem 'shoulda-matchers'
