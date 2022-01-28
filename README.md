@@ -1,24 +1,30 @@
 # README
+Postman collection https://documenter.getpostman.com/view/13585458/UVeCP87U
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
-
-Things you may want to cover:
+How to run this application:
 
 * Ruby version
-
-* System dependencies
+  - ruby 2.6.5
+  - rails 6.0.1
 
 * Configuration
+go to directory project and run
+```
+$ bundle install
+```
 
 * Database creation
+run
+```
+$ rails db:reset
+```
 
 * Database initialization
+```
+$ rails db:migrate
+```
 
 * How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+```
+$ bundle exec rspec
+```
