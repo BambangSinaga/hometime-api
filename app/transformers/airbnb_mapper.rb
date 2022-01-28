@@ -1,5 +1,4 @@
 class AirbnbMapper < Dry::Transformer::Pipe
-  import Dry::Transformer::ArrayTransformations
   import Dry::Transformer::HashTransformations
 
   define! do
