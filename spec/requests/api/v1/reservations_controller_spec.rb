@@ -78,7 +78,7 @@ RSpec.describe Api::V1::ReservationsController, type: :request do
       context 'when empty guests number' do
         let(:guests) { 0 }
 
-        fit 'returns 422 http code' do
+        it 'returns 422 http code' do
           post api_v1_reservations_path,
           params: request_body
 
