@@ -1,5 +1,10 @@
 # frozen_string_literal: true
 
+# handle integration of reservation between multiple partner
+# first choose valid schema for incoming payload
+# return errors if no valid schema available
+# transform schema to hometime struct if valid schema available
+# process struct to persistent storage, either creating or updating data
 class PartnerReservationIntegrator
   attr_accessor :errors
 
