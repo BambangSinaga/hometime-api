@@ -1,4 +1,4 @@
-
+# https://dry-rb.org/gems/dry-schema/1.5/params/
 class Airbnb < ApplicationContract
 
   params do
